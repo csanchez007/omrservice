@@ -16,19 +16,19 @@ if (isset( $_GET['idReporte'])){
         
     }
 
-//URL http://localhost/appcondominio/servicios/servicios.php?usser=1-9&getAllServicios
+//URL http://localhost/appcondominio/servicios/servicios.php?user=1-9&getAllServicios
 /*=============================================
-LLAMAR A TODOS LOS USUARIOS
+LLAMAR A TODOS LOS REPORTES POR USUARIO
 =============================================*/
 if (isset($_GET['getAllServicios'])){
-   $usser = $_GET['usser'];
+   $user = $_GET['user'];
    $alltipouser= new ControladorServicios();
-   $alltipouser->allallServiciosCTR($usser);
+   $alltipouser->allallServiciosCTR($user);
    
    }
-//URL http://localhost/appcondominio/servicios/servicios.php?getAllServicios
+//URL http://localhost/appcondominio/servicios/servicios.php?idReporte=7&getAllServicios
 /*=============================================
-LLAMAR A UN REPORTE
+LLAMAR A UN REPORTE POR ID
 =============================================*/
 if (isset($_GET['getOneServicios'])){
 
@@ -37,7 +37,7 @@ if (isset($_GET['getOneServicios'])){
     
     }
 
-//URL http://localhost/appcondominio/servicios/servicios.php?getOneSolucion
+//URL http://localhost/appcondominio/servicios/servicios.php?idReporte=7&getOneSolucion
 /*=============================================
 LLAMAR A UNA SOLUCION
 =============================================*/
@@ -69,14 +69,14 @@ if (isset($_GET['getOneSolucionFotos'])){
     
     }
 
-//URL http://localhost/appcondominio/servicios/servicios.php?usser=1-9&getAllSolucion
+//URL http://localhost/appcondominio/servicios/servicios.php?user=1-9&getAllSolucion
 /*=============================================
 LLAMAR A UN REPORTE
 =============================================*/
 if (isset($_GET['getAllSolucion'])){
-    $usser = $_GET['usser'];
+    $user = $_GET['user'];
     $alltipouser= new ControladorServicios();
-    $alltipouser->allSolucionCTR($usser);
+    $alltipouser->allSolucionCTR($user);
     
     }
 

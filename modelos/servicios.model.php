@@ -21,7 +21,7 @@ class ModelServicios{
  
     }
     /*=============================================
-	LLAMAR A UNO LOS TIPO USUARIOS OARA REPORTE
+	LLAMAR A UNO LOS TIPO USUARIOS PARA REPORTE
 	=============================================*/
     static public function oneServiciosMDL($idReporte, $tablaCliente, $tabla, $tablaFoto){
 
@@ -41,7 +41,7 @@ class ModelServicios{
 	=============================================*/
     static public function oneSolucionMDL($idSolucion, $tablaCliente, $tabla, $tablaFoto){
 
-        $sql = Conexion::conectar()->prepare("SELECT id,
+        $sql = Conexion::conectar()->prepare("SELECT id, idReporte,
         (SELECT NOMBRE FROM $tablaCliente WHERE USUARIO = usuarios LIMIT 1) AS 'Clientes', 
         desde, hasta, descripcion,coords, 
         (SELECT rutaFoto FROM $tablaFoto WHERE idSolucion = id LIMIT 1) AS 'rutaFoto'
@@ -79,7 +79,7 @@ class ModelServicios{
 
     }
     /*=============================================
-	LLAMAR A TODOS LOS TIPO USUARIOS
+	LLAMAR A TODAS LAS SOLUCIONES
 	=============================================*/
     static public function allallSolucionMDL($tablaCliente, $tabla, $tablaFoto, $usser){
 

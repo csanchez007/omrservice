@@ -37,7 +37,7 @@ class ModelServicios{
 
     }
     /*=============================================
-	LLAMAR A UNO LOS TIPO USUARIOS OARA REPORTE
+	LLAMAR A UNO LOS TIPO USUARIOS PARA REPORTE
 	=============================================*/
     static public function oneSolucionMDL($idSolucion, $tablaCliente, $tabla, $tablaFoto){
 
