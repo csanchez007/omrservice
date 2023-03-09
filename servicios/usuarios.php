@@ -87,7 +87,7 @@ if (isset($_GET['newuserpos'])){
 CONSULTA USUARIO (LLAMAR SESIÓN)
 =============================================*/
 if (isset($_GET['consultaUser'])){
-    
+    $usuario = $_GET['user'];
     $alluser= new ControladorPlantilla();
     $alluser->consultaUserCTR($usuario);
         
@@ -98,9 +98,9 @@ if (isset($_GET['consultaUser'])){
 CONSULTA USUARIO PARA LLENAR LOS CAMPOS
 =============================================*/
 if (isset($_GET['consultaUserEdit'])){
-    
+    $id = $_GET['ID'];
     $user= new ControladorPlantilla();
-    $user->consultaPredefinidosCTR($id);
+    $user->consultaUserEditCTR($id);
         
     }
 //URL http://localhost/omrservice/servicios/usuarios.php?ID=1&consultaPredefinido

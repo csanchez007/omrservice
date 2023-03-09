@@ -70,5 +70,30 @@ if (isset($_GET['deleteDatosGral'])){
     $oneDatosGralDelete= new ControladorDatos();
     $oneDatosGralDelete->deleteDatosCTR($id);
     }
+
+/*==========================================================================================*/
+
+/*=============================================
+LLAMAR TODOS LOS DATOS
+=============================================*/
+// URL http://localhost/omr/omrservice/servicios/datos.php?getAllDatosMovil
+if (isset($_GET['getAllDatosMovil'])){
+
+    $datosMovil= new ControladorDatos();
+    $datosMovil->AllDatosMovilCTR();
+    
+}
+/*=============================================
+LLAMAR TODOS LOS DATOS
+=============================================*/
+// URL http://localhost/omr/omrservice/servicios/datos.php?id=1&getAllDatosMovilId
+ if (isset($_GET['getAllDatosMovilId'])){
+
+    $id= $_GET['id'];
+    
+    $oneDatosMovil= new ControladorDatos();
+    $oneDatosMovil->DatosMovilIDCTR($id);
+}
+    
 /*header("Access-Control-Allow-Origin: *");
 ob_end_flush();*/

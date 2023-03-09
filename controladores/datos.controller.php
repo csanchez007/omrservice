@@ -22,13 +22,7 @@ class ControladorDatos{
 
         header('Content-type:application/json');
         
-        $tablaUsuario = "usuarios";
-        $tabla = "datos_generales";
-        $tablaDatos = "estado_datos";
-        $tablaMM = "modelo_marca";
-        $tablaTM = "tipo_movil";
-
-        $respuesta = ModelDatos::oneDatosGralMDL($tablaUsuario, $tabla, $tablaDatos, $tablaMM, $tablaTM, $id);
+        $respuesta = ModelDatos::oneDatosGralMDL($id);
     
         $array=json_encode($respuesta);
         
@@ -42,13 +36,7 @@ class ControladorDatos{
 
         header('Content-type:application/json');
         
-        $tablaUsuario = "usuarios";
-        $tabla = "datos_generales";
-        $tablaDatos = "estado_datos";
-        $tablaMM = "modelo_marca";
-        $tablaTM = "tipo_movil";
-
-        $respuesta = ModelDatos::AllDatosMDL($tablaUsuario, $tabla, $tablaDatos, $tablaMM, $tablaTM);
+        $respuesta = ModelDatos::AllDatosMDL();
     
         $array=json_encode($respuesta);
         
@@ -77,6 +65,31 @@ class ControladorDatos{
         $tabla = "datos_generales";
 
         $respuesta = ModelDatos::deleteDatosMDL($tabla, $id);
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
+    }
+
+    /*=============================================
+	LLAMAR TODOS LOS DATOS MÓVIL
+	=============================================*/
+    static public function AllDatosMovilCTR(){
+
+        header('Content-type:application/json');
+        
+        $respuesta = ModelDatos::AllDatosMovilMDL();
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
+    }
+
+    static public function DatosMovilIDCTR($id){
+
+        header('Content-type:application/json');
+        
+        $respuesta = ModelDatos::datosMovilIDMDL($id);
     
         $array=json_encode($respuesta);
         
