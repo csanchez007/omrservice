@@ -11,7 +11,16 @@ class ModelDatos{
         date_default_timezone_set("America/Santiago");
         $fecha = date("Y-m-d");
 
-        
+        $stmt = Conexion::conectar()->prepare("SELECT* FROM $tabla WHERE idUsuario = :usuarios AND idModelMarca= :idModelMarca");
+    
+        $stmt->bindParam(":usuarios",$datos->idUsuario, PDO::PARAM_STR);
+        $stmt->bindParam(":idModelMarca",$datos->idModelMarca, PDO::PARAM_STR);
+        $stmt-> execute();
+        $stmt = $stmt->fetchColumn();
+    
+        if ($stmt!=null){
+            return "2";
+        }else{
         
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla
         (idUsuario, idModelMarca, revTecnica, perCirculacion, fechaCreacion, estado)
@@ -34,7 +43,7 @@ class ModelDatos{
 			return "2";
 		
 		}
-
+    }
 
     }
 
