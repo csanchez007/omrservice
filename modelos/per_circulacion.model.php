@@ -8,9 +8,16 @@ class ModelPerCirculacion{
 	INSERTAR DATOS REVICIÓN TÉCNICA
 	=============================================*/
     static public function newPerCircMDL($tabla, $datos){
-        date_default_timezone_set("America/Santiago");
-        $fecha = date("Y-m-d");
-        
+
+        $stmt = Conexion::conectar()->prepare("SELECT* FROM $tabla WHERE id_numPatente = :id_numPatente");
+    
+        $stmt->bindParam(":id_numPatente",$datos->id_numPatente, PDO::PARAM_STR);
+        $stmt-> execute();
+        $stmt = $stmt->fetchColumn();
+    
+        if ($stmt!=null){
+            return "2";
+        }else{
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla
         (id_numPatente, fchDesde, fchHasta, observaciones, lugarEmitido, quienEmite, selloVerde, estado)
          VALUES (:id_numPatente, :fchDesde, :fchHasta, :observaciones, :lugarEmitido, :quienEmite, :selloVerde, :estado)");
@@ -35,7 +42,7 @@ class ModelPerCirculacion{
 		
 		}
 
-
+    }
     }
 
     /*=============================================
@@ -57,10 +64,10 @@ class ModelPerCirculacion{
     /*=============================================
 	LLAMAR A TODOS LOS  REVICIÓN TÉCNICA
 	=============================================*/
-    static public function AllPerCircnicaMDL($tablaDatosGral, $tabla){
+    static public function AllPerCircnicaMDL($modelo_marca, $tabla){
 
-        $sql = Conexion::conectar()->prepare("SELECT id, 
-        (SELECT numPatente FROM $tablaDatosGral WHERE id = id_numPatente LIMIT 1) AS 'numPatente', 
+        $sql = Conexion::conectar()->prepare("SELECT id, id_numPatente,
+        (SELECT numPatente FROM $modelo_marca WHERE id = id_numPatente LIMIT 1) AS 'numPatente',
         fchDesde, fchHasta, observaciones, lugarEmitido, quienEmite, selloVerde, estado
         FROM $tabla");
 

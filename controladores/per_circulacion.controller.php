@@ -21,7 +21,7 @@ class ControladorPerCirculacion{
 
         header('Content-type:application/json');
         
-        $tablaDatosGral = "datos_generales";
+        $tablaDatosGral = "modelo_marca";
         $tabla = "per_circulacion";
 
         $respuesta = ModelPerCirculacion::onePerCirclMDL($tabla, $tablaDatosGral, $id);
@@ -38,11 +38,11 @@ class ControladorPerCirculacion{
 
         header('Content-type:application/json');
         
-        $tablaDatosGral = "datos_generales";
+        $modelo_marca = "modelo_marca";
         $tabla = "per_circulacion";
 
 
-        $respuesta = ModelPerCirculacion::AllPerCircnicaMDL($tablaDatosGral, $tabla);
+        $respuesta = ModelPerCirculacion::AllPerCircnicaMDL($modelo_marca, $tabla);
     
         $array=json_encode($respuesta);
         

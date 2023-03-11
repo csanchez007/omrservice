@@ -22,10 +22,10 @@ class ControladorRevTecnica{
 
         header('Content-type:application/json');
         
-        $tablaDatosGral = "datos_generales";
+        $modelo_marca = "modelo_marca";
         $tabla = "rev_tecnica";
 
-        $respuesta = ModelRevTecnica::oneRevTeclMDL($tabla, $tablaDatosGral, $id);
+        $respuesta = ModelRevTecnica::oneRevTeclMDL($tabla, $modelo_marca, $id);
     
         $array=json_encode($respuesta);
         
@@ -39,11 +39,11 @@ class ControladorRevTecnica{
 
         header('Content-type:application/json');
         
-        $tablaDatosGral = "datos_generales";
+        $modelo_marca = "modelo_marca";
         $tabla = "rev_tecnica";
 
 
-        $respuesta = ModelRevTecnica::AllRevTecnicaMDL($tablaDatosGral, $tabla);
+        $respuesta = ModelRevTecnica::AllRevTecnicaMDL($modelo_marca, $tabla);
     
         $array=json_encode($respuesta);
         
