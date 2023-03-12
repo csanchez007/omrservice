@@ -19,7 +19,7 @@ if (isset($_POST['file'])){
 
     $host= $_SERVER["HTTP_HOST"];
 
-    $data['image_url'] =''.$host.'/omr/omrservice/assets/detalle_reporte/'.$target_path;
+    $data['image_url'] ='http://'.$host.'/omr/omrservice/assets/detalle_reporte/'.$target_path;
     /* INFOSITE */
    //$data['image_url'] = 'https://www.infositechile.cl/omrservice/assets/detalle_reporte/'.$target_path;
 

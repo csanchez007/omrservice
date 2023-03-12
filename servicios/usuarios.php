@@ -41,6 +41,9 @@ INICIAR SESIÓN
 =============================================*/
 if (isset($_GET['session'])){
 
+$usuario= $_GET['user'];
+$pass= $_GET['pass'];
+
 $sesion= new ControladorPlantilla();
 $sesion->iniciarSesion($usuario, $pass);
 

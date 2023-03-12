@@ -147,4 +147,18 @@ class ControladorServicios{
         
         echo $array;
     }
+
+    /*=============================================
+	UPDATE REPORTE DESDE LA WEB
+	=============================================*/
+    static public function updateReporteCTR($datos){
+
+        $tabla="detalle_reporte";
+
+        $respuesta = ModelServicios::updateReporteMDL($tabla, $datos);
+    
+        echo $respuesta;
+
+        
+    }
 }

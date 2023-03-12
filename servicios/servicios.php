@@ -4,6 +4,9 @@ require_once "../controladores/servicios.controller.php";
 
 require_once "../modelos/servicios.model.php";
 
+header("Access-Control-Allow-Origin: *");
+ob_end_flush();
+
 if (isset( $_GET['idReporte'])){
 
     $idReporte= $_GET['idReporte'];
@@ -108,6 +111,18 @@ if (isset($_GET['getAllMMD'])){
     $alltipouser->allaMMDCTR();
 
 }
-   header('Content-type: application/json');
-   header("Access-Control-Allow-Origin: *");
-   ob_end_flush();
+
+/*=============================================
+UPDATE REPORTE DESDE LA WEB
+=============================================*/
+//URL http://localhost/omr/omrservice/servicios//servicios.php?updateReporte
+if (isset($_GET['updateReporte'])){
+    
+    header('Content-type: application/json');
+    $postdata = file_get_contents("php://input");
+    $request = json_decode($postdata);
+    $datos = ($request);
+
+    $updateReporte= new ControladorServicios();
+    $updateReporte->updateReporteCTR($datos);       
+}

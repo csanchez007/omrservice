@@ -201,10 +201,11 @@ class ModelSession{
         date_default_timezone_set("America/Santiago");
         $fecha = date("Y-m-d G:i:s");
         
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, unidad, descripcion, idPredef, descripcionQR, fecha, coords) VALUES (:idUsuario, :unidad, :descripcion, :idPredef, :descripcionQR, :fecha_crea, :coords)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, id_numPatente, descripcion, idPredef, descripcionQR, fecha, coords)
+                                               VALUES (:idUsuario, :id_numPatente, :descripcion, :idPredef, :descripcionQR, :fecha_crea, :coords)");
 
         $stmt->bindParam(":idUsuario", $datos->idCliente, PDO::PARAM_STR);
-        $stmt->bindParam(":unidad", $datos->unidad, PDO::PARAM_STR);
+        $stmt->bindParam(":id_numPatente", $datos->id_numPatente, PDO::PARAM_STR);
         $stmt->bindParam(":descripcion", $datos->descripcion, PDO::PARAM_STR);
         $stmt->bindParam(":idPredef", $datos->idPredef, PDO::PARAM_STR);
         $stmt->bindParam(":descripcionQR", $datos->descripcionQR, PDO::PARAM_STR);

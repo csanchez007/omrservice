@@ -82,8 +82,6 @@ class ModelRevTecnica{
 	UPDATE REV TECNICA
 	=============================================*/
     static public function updateRevTecMDL($tabla, $datos){
-        date_default_timezone_set("America/Santiago");
-        $fecha = date("Y-m-d");
         
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_numPatente=:id_numPatente, fchDesde=:fchDesde, fchHasta=:fchHasta, 
                                                observaciones=:observaciones, lugarEmitido=:lugarEmitido, quienEmite=:quienEmite,
