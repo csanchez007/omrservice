@@ -20,9 +20,10 @@ class ModelDatosMovil{
         }else{
         
 		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla
-        (numPatente, idTipoMovil, nomMarca, nomModelo, numChasis,numMotor,ano, estado)
-         VALUES (:numPatente, :idTipoMovil, :nomMarca, :nomModelo, :numChasis, :numMotor, :ano, :estado)");
+        (numCarro, numPatente, idTipoMovil, nomMarca, nomModelo, numChasis,numMotor,ano, estado)
+         VALUES (:numCarro, :numPatente, :idTipoMovil, :nomMarca, :nomModelo, :numChasis, :numMotor, :ano, :estado)");
 
+        $stmt->bindParam(":numCarro", $datos->numCarro, PDO::PARAM_STR);
         $stmt->bindParam(":numPatente", $datos->numPatente, PDO::PARAM_STR);
         $stmt->bindParam(":idTipoMovil", $datos->idTipoMovil, PDO::PARAM_STR);
         $stmt->bindParam(":nomMarca", $datos->nomMarca, PDO::PARAM_STR);
@@ -60,6 +61,7 @@ class ModelDatosMovil{
         modelo_marca.numChasis,
         modelo_marca.numMotor,
         modelo_marca.numPatente,
+        modelo_marca.numCarro,
         modelo_marca.ano,
         modelo_marca.estado AS estadoID,
         (SELECT nomEstado FROM estado_datos WHERE id = estado) as estado
@@ -86,6 +88,7 @@ class ModelDatosMovil{
         modelo_marca.numChasis,
         modelo_marca.numMotor,
         modelo_marca.numPatente,
+        modelo_marca.numCarro,
         modelo_marca.ano,
         modelo_marca.estado AS estadoID,
         (SELECT nomEstado FROM estado_datos WHERE id = estado) as estado
@@ -114,10 +117,11 @@ class ModelDatosMovil{
 	=============================================*/
     static public function updateUDatosMovilMDL($tabla, $datos){
         
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET numPatente=:numPatente, idTipoMovil=:idTipoMovil, nomMarca=:nomMarca,
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET numCarro=:numCarro, numPatente=:numPatente, idTipoMovil=:idTipoMovil, nomMarca=:nomMarca,
                                               nomModelo=:nomModelo, numChasis=:numChasis, numMotor=:numMotor,
                                               ano=:ano, estado=:estado  WHERE id=:id");
-
+            
+            $stmt->bindParam(":numCarro", $datos->numCarro, PDO::PARAM_STR);
             $stmt->bindParam(":numPatente", $datos->numPatente, PDO::PARAM_STR);
             $stmt->bindParam(":idTipoMovil", $datos->idTipoMovil, PDO::PARAM_STR);
             $stmt->bindParam(":nomMarca", $datos->nomMarca, PDO::PARAM_STR);

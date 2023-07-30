@@ -19,6 +19,26 @@ if (isset( $_GET['idReporte'])){
         
     }
 
+//URL http://localhost/appcondominio/servicios/servicios.php?user=1-9&todosServicios
+/*=============================================
+LLAMAR A TODOS LOS REPORTES POR USUARIO
+=============================================*/
+if (isset($_GET['todosServicios'])){
+    $user = $_GET['user'];
+    $alltipouser= new ControladorServicios();
+    $alltipouser->allallServiciosCTR($user);
+    
+    }
+//URL http://localhost/appcondominio/servicios/servicios.php?user=1-9&todosSinSolucionServicios
+/*=============================================
+LLAMAR A TODOS LOS REPORTES POR USUARIO
+=============================================*/
+if (isset($_GET['todosSinSolucionServicios'])){
+    $user = $_GET['user'];
+    $alltipouser= new ControladorServicios();
+    $alltipouser->allSinSolucionServiciosCTR($user);
+    
+    }
 //URL http://localhost/appcondominio/servicios/servicios.php?user=1-9&getAllServicios
 /*=============================================
 LLAMAR A TODOS LOS REPORTES POR USUARIO
@@ -126,3 +146,39 @@ if (isset($_GET['updateReporte'])){
     $updateReporte= new ControladorServicios();
     $updateReporte->updateReporteCTR($datos);       
 }
+ //URL http://localhost/omrservice/servicios/servicios.php?addDoc
+/*=============================================
+NUEVo DOCUMENTO DETALLE DE REPORTE
+=============================================*/
+if (isset($_GET['addDoc'])){
+    
+    header('Content-type: application/json');
+    $postdata = file_get_contents("php://input");
+    $request = json_decode($postdata);
+    $datos = ($request);
+
+     $newuser= new ControladorServicios();
+     $newuser->docPDFCTR($datos);
+        
+    }
+/*=============================================
+LLAMAR TODOS LOS MODELO MARCA DATOS
+=============================================*/
+//URL http://localhost/omrservice/servicios/servicios.php?getAllMMD
+if (isset($_GET['getAllDOC'])){
+
+    $doc= new ControladorServicios();
+    $doc->allDocCTR();
+
+}
+
+//URL http://localhost/appcondominio/servicios/servicios.php?id=7&getOneDocument
+/*=============================================
+LLAMAR A TODAS LAS FOTOS DE REPORTE POR USUARIO
+=============================================*/
+if (isset($_GET['getOneDocument'])){
+    $id = $_GET['id'];
+    $doc= new ControladorServicios();
+    $doc->oneDocument($id);
+    
+    }

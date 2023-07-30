@@ -201,12 +201,14 @@ class ModelSession{
         date_default_timezone_set("America/Santiago");
         $fecha = date("Y-m-d G:i:s");
         
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, id_numPatente, descripcion, idPredef, descripcionQR, fecha, coords)
-                                               VALUES (:idUsuario, :id_numPatente, :descripcion, :idPredef, :descripcionQR, :fecha_crea, :coords)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, numMovil, descripcion, descripcionSolucion, 
+                                               idPredef, descripcionQR, fecha, coords) VALUES (:idUsuario, :numMovil, 
+                                               :descripcion, :descripcionSolucion, :idPredef, :descripcionQR, :fecha_crea, :coords)");
 
-        $stmt->bindParam(":idUsuario", $datos->idCliente, PDO::PARAM_STR);
-        $stmt->bindParam(":id_numPatente", $datos->id_numPatente, PDO::PARAM_STR);
+        $stmt->bindParam(":idUsuario", $datos->idUsuario, PDO::PARAM_STR);
+        $stmt->bindParam(":numMovil", $datos->numMovil, PDO::PARAM_STR);
         $stmt->bindParam(":descripcion", $datos->descripcion, PDO::PARAM_STR);
+        $stmt->bindParam(":descripcionSolucion", $datos->descripcionSolucion, PDO::PARAM_STR);
         $stmt->bindParam(":idPredef", $datos->idPredef, PDO::PARAM_STR);
         $stmt->bindParam(":descripcionQR", $datos->descripcionQR, PDO::PARAM_STR);
         $stmt->bindParam(":fecha_crea", $fecha, PDO::PARAM_STR);
@@ -240,11 +242,11 @@ class ModelSession{
     /*=============================================
 	 REGISTRO DE REPORTES DE SOLUCION FOTOS
 	=============================================*/
-    static public function consultaSolFotoMDL($tabla, $rut){
+    static public function consultaSolFotoMDL($tabla, $id){
 
-        $sql = Conexion::conectar()->prepare("SELECT id FROM $tabla WHERE usuarios = :rut ORDER BY id DESC LIMIT 1");
+        $sql = Conexion::conectar()->prepare("SELECT id FROM $tabla WHERE idUsuario = :id ORDER BY id DESC LIMIT 1");
 
-        $sql -> bindParam(":rut",$rut, PDO::PARAM_STR);
+        $sql -> bindParam(":id",$id, PDO::PARAM_STR);
 
         $sql ->execute();
 
@@ -258,10 +260,11 @@ class ModelSession{
         date_default_timezone_set("America/Santiago");
         $fecha = date("Y-m-d G:i:s");
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idReporte, rutaFoto, usuario_crea, fecha_crea) VALUES (:idReporte, :rutaFoto, :crea, :fecha_crea)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idReporte, rutaFoto, fotoReporte, usuario_crea, fecha_crea) VALUES (:idReporte, :rutaFoto, :fotoReporte, :crea, :fecha_crea)");
 
         $stmt->bindParam(":idReporte", $datos->idReporte, PDO::PARAM_STR);
         $stmt->bindParam(":rutaFoto", $datos->rutaFoto, PDO::PARAM_STR);
+        $stmt->bindParam(":fotoReporte", $datos->fotoReporte, PDO::PARAM_STR);
         $stmt->bindParam(":crea", $datos->usuario_crea, PDO::PARAM_STR);
         $stmt->bindParam(":fecha_crea", $fecha, PDO::PARAM_STR);
 
@@ -311,14 +314,15 @@ class ModelSession{
         $fecha = date("Y-m-d G:i:s");
         
         
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usuarios, idReporte, desde, hasta, descripcion, rutaFoto, fecha_crea, usuario_crea, coords) VALUES (:usuario, :reporte, :desde, :hasta, :descripcion, :rutaFoto, :fecha_crea, :usuario_crea, :coords)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, idReporte, desde, hasta, descripcion, 
+        fecha_crea, usuario_crea, coords) VALUES (:idUsuario, :reporte, :desde, :hasta, :descripcion, :fecha_crea, 
+        :usuario_crea, :coords)");
 
-        $stmt->bindParam(":usuario", $datos->usuario, PDO::PARAM_STR);
+        $stmt->bindParam(":idUsuario", $datos->usuario, PDO::PARAM_STR);
         $stmt->bindParam(":reporte", $datos->reporte, PDO::PARAM_STR);
         $stmt->bindParam(":desde", $datos->desde, PDO::PARAM_STR);
         $stmt->bindParam(":hasta", $datos->hasta, PDO::PARAM_STR);       
         $stmt->bindParam(":descripcion", $datos->descripcion, PDO::PARAM_STR);
-        $stmt->bindParam(":rutaFoto", $datos->rutaFoto, PDO::PARAM_STR);
         $stmt->bindParam(":fecha_crea", $fecha, PDO::PARAM_STR);
         $stmt->bindParam(":usuario_crea", $datos->usuario_crea, PDO::PARAM_STR);
         $stmt->bindParam(":coords", $datos->coords, PDO::PARAM_STR);
@@ -389,5 +393,30 @@ class ModelSession{
          return $sql -> fetch();
 
      }
+
+    /*=============================================
+	UPADATE DETALLE SOLUCIÓN
+	=============================================*/
+    static public function updateSolucionMDL($tabla, $datos){
+        
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET descripcion=:descripcion, desde=:desde, 
+                                                hasta=:hasta WHERE id=:id");
+
+            $stmt->bindParam(":descripcion", $datos->descripcion, PDO::PARAM_STR);
+            $stmt->bindParam(":desde", $datos->desde, PDO::PARAM_STR);
+            $stmt->bindParam(":hasta", $datos->hasta, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $datos->id, PDO::PARAM_STR);
+
+		if($stmt->execute()){
+
+			return "1";
+
+		}else{
+
+			return "2";
+		
+		}
+		
+    }
 
 }

@@ -1,6 +1,41 @@
 <?php
 
 class ControladorServicios{
+
+    /*=============================================
+	LLAMAR A TODOS LOS TIPO USUARIO
+	=============================================*/
+    static public function todosServiciosCTR($usser){
+
+        header('Content-type:application/json');
+        
+        $usuario = "usuarios";
+        $tabla = "detalle_reporte";
+        $tablaFoto = "foto_reporte";
+
+        $respuesta = ModelServicios::todosServiciosMDL($usuario, $tabla, $tablaFoto, $usser);
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
+    }
+    /*====================================================
+	LLAMAR A TODOS LOS REPORTES SIN SOLUCION TIPO USUARIOS
+	=====================================================*/
+    static public function allSinSolucionServiciosCTR($usser){
+
+        header('Content-type:application/json');
+        
+        $usuario = "usuarios";
+        $tabla = "detalle_reporte";
+        $tablaFoto = "foto_reporte";
+
+        $respuesta = ModelServicios::allSinSolucionServiciosMDL($usuario, $tabla, $tablaFoto, $usser);
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
+    }
     /*=============================================
 	LLAMAR A TODOS LOS TIPO USUARIO
 	=============================================*/
@@ -86,15 +121,15 @@ class ControladorServicios{
     /*=============================================
 	LLAMAR A TODOS LOS TIPO USUARIO
 	=============================================*/
-    static public function allSolucionCTR($usser){
+    static public function allSolucionCTR($user){
 
         header('Content-type:application/json');
         
-        $tablaCliente = "usuarios";
+        $usuarios = "usuarios";
         $tabla = "detalle_solucion";
         $tablaFoto = "foto_solucion";
 
-        $respuesta = ModelServicios::allallSolucionMDL($tablaCliente, $tabla, $tablaFoto, $usser);
+        $respuesta = ModelServicios::allallSolucionMDL($usuarios, $tabla, $tablaFoto, $user);
     
         $array=json_encode($respuesta);
         
@@ -160,5 +195,51 @@ class ControladorServicios{
         echo $respuesta;
 
         
+    }
+    /*=============================================
+	INSERTAR FOTO DETALLES DE REPORTE
+	=============================================*/
+    static public function docPDFCTR($datos){
+
+        $tabla="tbl_docs";
+
+         $respuesta = ModelServicios::docPDFMDL($tabla, $datos);
+    
+        echo $respuesta;
+
+        
+    }
+
+    /*=============================================
+    LLAMAR TODOS LOS DOCUMENTOS
+    =============================================*/
+    static public function allDocCTR(){
+
+        header('Content-type:application/json');
+        
+        $tabla = "tbl_docs";
+        $usuario = "usuarios";
+
+        $respuesta = ModelServicios::allDocnMDL($tabla, $usuario);
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
+    }
+
+    /*=============================================
+	CONSULTA UN DOCUMENTO
+	=============================================*/
+    static public function oneDocument($id){
+
+        header('Content-type:application/json');
+
+        $tabla = "tbl_docs";
+
+        $respuesta = ModelServicios::oneDocMDL($id, $tabla);
+    
+        $array=json_encode($respuesta);
+        
+        echo $array;
     }
 }

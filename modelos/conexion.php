@@ -4,7 +4,7 @@ class Conexion
 {
     public static  function conectar(){
 
-        $link = new PDO("mysql:host=localhost;dbname=omrdb",
+        $link = new PDO("mysql:host=localhost;dbname=infosite_bss_omr",
                         "root",
                         "cesarinfo777",
                         array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

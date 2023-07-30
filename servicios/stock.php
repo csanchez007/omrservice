@@ -1,8 +1,4 @@
-<?php
-   header('Content-type: application/json');
-   header("Access-Control-Allow-Origin: *");
-   ob_end_flush();
-   
+<?php   
 require_once "../controladores/stock.controller.php";
 
 require_once "../modelos/stock.model.php";
@@ -89,5 +85,7 @@ if (isset($_GET['deleteStock'])){
         
     }
 
+    header("Access-Control-Allow-Origin: *");
+    ob_end_flush();
 
  

@@ -3,15 +3,54 @@
 require_once "conexion.php";
 
 class ModelServicios{
+
     /*=============================================
-	LLAMAR A TODOS LOS TIPO USUARIOS
+	LLAMAR A TODOS LOS REPORTES SIN FILTROS
+	=============================================*/
+    static public function todosServiciosMDL($usuario, $tabla, $tablaFoto, $usser){
+
+        $sql = Conexion::conectar()->prepare("SELECT id, idUsuario,id_numPatente,
+        (SELECT nombre FROM $usuario WHERE id = idUsuario LIMIT 1) AS 'Usuario',
+        (SELECT numPatente FROM modelo_marca WHERE id = id_numPatente LIMIT 1) AS 'numPatente', 
+        numMovil, 
+        descripcion, descripcionQR, fecha, (CASE estado WHEN  '1' THEN 'Activo' ELSE 'Inactivo' END) as 'est',
+        (SELECT rutaFoto FROM $tablaFoto WHERE idReporte = id LIMIT 1) AS 'rutaFoto',
+        (CASE solucionado WHEN  '1' THEN 'Si' ELSE 'No' END) as 'solucions'
+        FROM $tabla ORDER BY fecha DESC");
+
+        $sql ->execute();
+
+        return $sql -> fetchAll();
+ 
+    }
+
+    /*=============================================
+	LLAMAR A TODOS LOS REPORTES POR USUARIOS
 	=============================================*/
     static public function allallServiciosMDL($usuario, $tabla, $tablaFoto, $usser){
 
         $sql = Conexion::conectar()->prepare("SELECT id, idUsuario,id_numPatente,
         (SELECT nombre FROM $usuario WHERE id = idUsuario LIMIT 1) AS 'Usuario',
         (SELECT numPatente FROM modelo_marca WHERE id = id_numPatente LIMIT 1) AS 'numPatente', 
-        descripcion, descripcionQR, fecha, (CASE estado WHEN  '1' THEN 'Activo' ELSE 'Inactivo' END) as 'est',
+        numMovil, descripcion, descripcionSolucion, descripcionQR, fecha, (CASE estado WHEN  '1' THEN 'Activo' ELSE 'Inactivo' END) as 'est',
+        (SELECT rutaFoto FROM $tablaFoto WHERE idReporte = id LIMIT 1) AS 'rutaFoto',
+        (CASE solucionado WHEN  '1' THEN 'Si' ELSE 'No' END) as 'solucions'
+        FROM $tabla WHERE idUsuario= '$usser' ORDER BY fecha DESC");
+
+        $sql ->execute();
+
+        return $sql -> fetchAll();
+ 
+    }
+    /*====================================================
+	LLAMAR A TODOS LOS REPORTES SIN SOLUCION TIPO USUARIOS
+	=====================================================*/
+    static public function allSinSolucionServiciosMDL($usuario, $tabla, $tablaFoto, $usser){
+
+        $sql = Conexion::conectar()->prepare("SELECT id, idUsuario,id_numPatente,
+        (SELECT nombre FROM $usuario WHERE id = idUsuario LIMIT 1) AS 'Usuario',
+        (SELECT numPatente FROM modelo_marca WHERE id = id_numPatente LIMIT 1) AS 'numPatente', 
+        numMovil, descripcion, descripcionSolucion, descripcionQR, fecha, (CASE estado WHEN  '1' THEN 'Activo' ELSE 'Inactivo' END) as 'est',
         (SELECT rutaFoto FROM $tablaFoto WHERE idReporte = id LIMIT 1) AS 'rutaFoto',
         (CASE solucionado WHEN  '1' THEN 'Si' ELSE 'No' END) as 'solucions'
         FROM $tabla WHERE solucionado!=1 AND idUsuario= '$usser' ORDER BY fecha DESC");
@@ -26,9 +65,10 @@ class ModelServicios{
 	=============================================*/
     static public function oneServiciosMDL($idReporte, $tablaCliente, $tabla, $tablaFoto){
 
-        $sql = Conexion::conectar()->prepare("SELECT id, idUsuario, id_numPatente,
+        $sql = Conexion::conectar()->prepare("SELECT id, idUsuario, id_numPatente, numMovil,
+        (SELECT numPatente FROM modelo_marca WHERE id = id_numPatente LIMIT 1) AS 'numPatente',
         (SELECT nombre FROM $tablaCliente WHERE id = idUsuario LIMIT 1) AS 'Usuario', 
-        idPredef, descripcion, descripcionQR, fecha, estado, coords, solucionado AS IDSolucionado,
+        idPredef, descripcion, descripcionSolucion, descripcionQR, fecha, estado, coords, solucionado AS IDSolucionado,
         (SELECT rutaFoto FROM $tablaFoto WHERE idReporte = id LIMIT 1) AS 'rutaFoto',
         (CASE solucionado WHEN  '1' THEN 'Si' ELSE 'No' END) as 'solucions' FROM $tabla WHERE id = $idReporte");
 
@@ -59,7 +99,7 @@ class ModelServicios{
 	=============================================*/
     static public function oneServiciosFotodMDL($idReporte, $tablaFoto){
 
-        $sql = Conexion::conectar()->prepare("SELECT rutaFoto FROM $tablaFoto WHERE idReporte = $idReporte AND activo=1");
+        $sql = Conexion::conectar()->prepare("SELECT rutaFoto, fotoReporte FROM $tablaFoto WHERE idReporte = $idReporte AND activo=1");
 
         $sql ->execute();
 
@@ -82,13 +122,13 @@ class ModelServicios{
     /*=============================================
 	LLAMAR A TODAS LAS SOLUCIONES
 	=============================================*/
-    static public function allallSolucionMDL($tablaCliente, $tabla, $tablaFoto, $usser){
+    static public function allallSolucionMDL($usuario, $tabla, $tablaFoto, $user){
 
         $sql = Conexion::conectar()->prepare("SELECT id,
-        (SELECT NOMBRE FROM $tablaCliente WHERE USUARIO = usuarios LIMIT 1) AS 'Clientes', 
+        (SELECT nombre FROM $usuario WHERE id = idUsuario LIMIT 1) AS 'Clientes', 
         desde, hasta, descripcion,
         (SELECT rutaFoto FROM $tablaFoto WHERE idSolucion = id LIMIT 1) AS 'rutaFoto' 
-        FROM $tabla WHERE usuarios= '$usser' ORDER BY fecha_crea DESC");
+        FROM $tabla WHERE idUsuario= '$user' ORDER BY fecha_crea DESC");
 
         $sql ->execute();
 
@@ -140,10 +180,11 @@ class ModelServicios{
     static public function updateReporteMDL($tabla, $datos){
 
         
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET idPredef=:idPredef, descripcion=:descripcion WHERE id=:id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET idPredef=:idPredef, descripcion=:descripcion, descripcionSolucion=:descripcionSolucion WHERE id=:id");
 
             $stmt->bindParam(":idPredef", $datos->idPredef, PDO::PARAM_STR);
             $stmt->bindParam(":descripcion", $datos->descripcion, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcionSolucion", $datos->descripcionSolucion, PDO::PARAM_STR);
             $stmt->bindParam(":id", $datos->id, PDO::PARAM_STR);
 
 		if($stmt->execute()){
@@ -156,6 +197,60 @@ class ModelServicios{
 		
 		}
 		
+    }
+    /*=============================================
+	INSERTAR DOCUMENTOS
+	=============================================*/
+    static public function docPDFMDL($tabla, $datos){
+        date_default_timezone_set("America/Santiago");
+        $fecha = date("Y-m-d G:i:s");
+
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idUsuario, tipo_doc, num_doc_carro, doc, fechaHora) VALUES (:idUsuario, :tipo_doc, :num_doc_carro, :doc, :fechaHora)");
+
+        $stmt->bindParam(":idUsuario", $datos->idUsuario, PDO::PARAM_STR);
+        $stmt->bindParam(":tipo_doc", $datos->tipo_doc, PDO::PARAM_STR);
+        $stmt->bindParam(":num_doc_carro", $datos->num_doc_carro, PDO::PARAM_STR);
+        $stmt->bindParam(":doc", $datos->doc, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaHora", $fecha, PDO::PARAM_STR);
+		if($stmt->execute()){
+
+			return "1";
+
+		}else{
+
+			return "2";
+		
+		}
+
+    }
+
+    /*=============================================
+	LLAMAR A TODOS LOS DOCUMENTOS
+	=============================================*/
+    static public function allDocnMDL( $tabla, $usuario){
+
+        $sql = Conexion::conectar()->prepare("SELECT id,
+        (SELECT nombre FROM $usuario WHERE id = idUsuario LIMIT 1) AS 'Nombre', 
+        tipo_doc, num_doc_carro, fechaHora
+        FROM $tabla  ORDER BY fechaHora DESC");
+
+        $sql ->execute();
+
+        return $sql -> fetchAll();
+    }
+
+        /*=============================================
+	CONSULTA ALBUM  DE SOLUCION POR USUARIO
+	=============================================*/
+    static public function oneDocMDL($id, $tabla){
+
+        $sql = Conexion::conectar()->prepare("SELECT tipo_doc, num_doc_carro, doc FROM $tabla WHERE id = $id ");
+
+        $sql ->execute();
+
+        return $sql -> fetchAll();
+
+
     }
 
 }

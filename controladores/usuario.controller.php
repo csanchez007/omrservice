@@ -187,12 +187,12 @@ class ControladorPlantilla{
     /*=============================================
 	CONSULTAR ID DE REPORTE PARA FOTO
 	=============================================*/
-    static public function consultaSolFotoCTR($rut){
+    static public function consultaSolFotoCTR($id){
 
         header('Content-type:application/json');
         $tabla = "detalle_solucion";
 
-        $respuesta = ModelSession::consultaSolFotoMDL($tabla, $rut);
+        $respuesta = ModelSession::consultaSolFotoMDL($tabla, $id);
     
         $array=json_encode($respuesta);
         
@@ -265,5 +265,17 @@ class ControladorPlantilla{
         
         echo $array;
     }
+    /*=============================================
+	UPADATE DETALLE SOLUCIÓN
+	=============================================*/
+    static public function updateSolucionesWeb($datos){
+
+        $tabla="detalle_solucion";
+
+        $respuesta = ModelSession::updateSolucionMDL($tabla, $datos);
     
+        echo $respuesta;
+
+        
+    }
 }

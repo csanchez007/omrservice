@@ -1,8 +1,4 @@
 <?php
-   header('Content-type: application/json');
-   header("Access-Control-Allow-Origin: *");
-   ob_end_flush();
-   
 require_once "../controladores/usuario.controller.php";
 
 require_once "../modelos/usuario.model.php";
@@ -189,9 +185,9 @@ if (isset($_GET['consultaUserReporte'])){
 CONSULTA ID DE REPORTE PARA FOTO
 =============================================*/
 if (isset($_GET['consultaSolFoto'])){
-    
+    $id= $_GET['rut'];
     $alluser= new ControladorPlantilla();
-    $alluser->consultaSolFotoCTR($rut);
+    $alluser->consultaSolFotoCTR($id);
         
     }
  //URL http://localhost/omrservice/servicios/usuarios.php?addFotoReporte
@@ -273,5 +269,23 @@ if (isset($_GET['consultaUserNot'])){
     
     $alluser = ControladorPlantilla::consultaUserNotCTR($rut);
     }
+ 
+    
+/*=============================================
+UPADATE DETALLE SOLUCIÓN
+=============================================*/
+// URL http://localhost/omr/omrservice/servicios/rev_tecnica.php?updateSolucion
+if (isset($_GET['updateSolucion'])){
+    
+    header('Content-type: application/json');
+    $postdata = file_get_contents("php://input");
+    $request = json_decode($postdata);
+    $datos = ($request);
 
+    $updateRevTec= new ControladorPlantilla();
+    $updateRevTec->updateSolucionesWeb($datos);       
+}
+
+header("Access-Control-Allow-Origin: *");
+ob_end_flush();
  

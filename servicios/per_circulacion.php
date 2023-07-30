@@ -4,8 +4,6 @@ require_once "../controladores/per_circulacion.controller.php";
 
 require_once "../modelos/per_circulacion.model.php";
 
-header("Access-Control-Allow-Origin: *");
-ob_end_flush();
 // URL http://localhost/omr/omrservice/servicios/per_circulacion.php?addDatosPerCir
 /*=============================================
 INSERTAR PERMISO DE CIRCULACIÓN
@@ -69,5 +67,6 @@ if (isset($_GET['deletePerCir'])){
     $onePerCirDelete= new ControladorPerCirculacion();
     $onePerCirDelete->deletePerCircTR($id);
     }
-/*header("Access-Control-Allow-Origin: *");
-ob_end_flush();*/
+
+    header("Access-Control-Allow-Origin: *");
+    ob_end_flush();

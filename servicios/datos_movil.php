@@ -6,6 +6,7 @@ require_once "../modelos/datos.movi.model.php";
 
 header("Access-Control-Allow-Origin: *");
 ob_end_flush();
+
 // URL http://localhost/omr/omrservice/servicios/datos_movil.php?addDatos
 /*=============================================
 INSERTAR DATOS GENERALES
@@ -73,5 +74,3 @@ if (isset($_GET['deleteDatosMovil'])){
 
 /*==========================================================================================*/
 
-/*header("Access-Control-Allow-Origin: *");
-ob_end_flush();*/

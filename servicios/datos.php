@@ -4,8 +4,6 @@ require_once "../controladores/datos.controller.php";
 
 require_once "../modelos/datos.model.php";
 
-header("Access-Control-Allow-Origin: *");
-ob_end_flush();
 // URL http://localhost/omr/omrservice/servicios/datos.php?addDatos
 /*=============================================
 INSERTAR DATOS GENERALES
@@ -94,6 +92,5 @@ LLAMAR TODOS LOS DATOS
     $oneDatosMovil= new ControladorDatos();
     $oneDatosMovil->DatosMovilIDCTR($id);
 }
-    
-/*header("Access-Control-Allow-Origin: *");
-ob_end_flush();*/
+header("Access-Control-Allow-Origin: *");
+ob_end_flush();

@@ -4,8 +4,6 @@ require_once "../controladores/rev_tecnica.controller.php";
 
 require_once "../modelos/rev_tecnica.model.php";
 
-header("Access-Control-Allow-Origin: *");
-ob_end_flush();
 // URL http://localhost/omr/omrservice/servicios/rev_tecnica.php?addDatosRevTec
 /*=============================================
 INSERTAR REV TECNICA
@@ -69,5 +67,6 @@ if (isset($_GET['deleteRevTec'])){
     $oneRevTecDelete= new ControladorRevTecnica();
     $oneRevTecDelete->deleteRevTecTR($id);
     }
-/*header("Access-Control-Allow-Origin: *");
-ob_end_flush();*/
+
+    header("Access-Control-Allow-Origin: *");
+    ob_end_flush();
